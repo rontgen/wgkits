@@ -11,10 +11,10 @@ setuptools.setup(
     description="Android build apk tools",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/rontgen/wgkits",
     packages=setuptools.find_packages(),
     classifiers=(
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 2",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
