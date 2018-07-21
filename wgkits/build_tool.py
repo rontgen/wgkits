@@ -9,6 +9,7 @@ import os,re,sys
 import json
 import codecs
 import shutil
+from subprocess import call
 
 from list_con import MyListConf
 from jinja2 import FileSystemLoader as FSLoader
@@ -198,3 +199,22 @@ def remove_files(path, p):
                 path=path2unix(os.path.join(root, file))
                 log("del file:{0}" .format(path))
                 os.remove(path)
+
+def reverto_version(rev):
+    call(['svn', 'update'], shell=True)
+    import re
+    import subprocess
+    p = subprocess.Popen(["svnversion"], stdout = subprocess.PIPE, 
+    stderr = subprocess.PIPE)
+    p.wait()
+    m = re.match(r'(|\d+M?S?):?(\d+)(M?)S?', p.stdout.read())
+    curv = int(m.group(2))
+    #if m.group(3) == 'M':
+        #curv += 1
+    cmd=['svn']
+    cmd.append('merge')
+    cmd.append('-r')
+    cmd.append(str(curv)+':'+str(rev))
+    cmd.append('.')
+    print(cmd)
+    call(cmd, shell=True)
