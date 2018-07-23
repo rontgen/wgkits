@@ -4,32 +4,35 @@ author: wang geng
 date: 2018-06-15
 func: extend ConfigParser class and make it read list items
       modify only '=' as separator for options
-      
+
 """
 
-import ConfigParser
+try:
+    import ConfigParser as cp
+except ImportError:
+    import configParser as cp
 import re
 
-class MyListConf(ConfigParser.ConfigParser, object):
+class MyListConf(cp.ConfigParser, object):
 
     OPTCRE_NV = re.compile(
         r'(?P<option>[^=\s][^=]*)'
-        r'\s*(?:'                            
-        r'(?P<vi>[=])\s*'                    
-        r'(?P<value>.*))?$'                   
+        r'\s*(?:'
+        r'(?P<vi>[=])\s*'
+        r'(?P<value>.*))?$'
         )
 
     _LIST_R = r"""
-        @(list)?                            
-        \s*(?P<header>\w+)                  
+        @(list)?
+        \s*(?P<header>\w+)
         """
-    
+
     LISTP = re.compile(_LIST_R, re.VERBOSE)
 
     def __init__(self):
         super(MyListConf, self).__init__(allow_no_value=True)
 
-    def optionxform(self, optionstr):  
+    def optionxform(self, optionstr):
         return optionstr
 
     def _get_list_name(self, section):
