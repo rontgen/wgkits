@@ -11,7 +11,12 @@ import codecs
 import shutil
 from subprocess import call
 
-from list_con import MyListConf
+
+try:
+    from list_con import MyListConf
+except ImportError:
+    from .list_con import MyListConf
+
 from jinja2 import FileSystemLoader as FSLoader
 from jinja2 import Environment as Env
 try:
@@ -98,7 +103,7 @@ def read_json(file_path):
 
 def write_json(file_path, str):
     if os.path.exists(file_path):
-        with open(file_path, 'w') as f:  
+        with open(file_path, 'w') as f:
             json.dump(str, f, encoding="utf-8")
 
 def read_file(file_name, lines=False):
@@ -204,7 +209,7 @@ def reverto_version(rev):
     call(['svn', 'update'], shell=True)
     import re
     import subprocess
-    p = subprocess.Popen(["svnversion"], stdout = subprocess.PIPE, 
+    p = subprocess.Popen(["svnversion"], stdout = subprocess.PIPE,
     stderr = subprocess.PIPE)
     p.wait()
     m = re.match(r'(|\d+M?S?):?(\d+)(M?)S?', p.stdout.read())
