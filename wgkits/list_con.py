@@ -10,7 +10,7 @@ func: extend ConfigParser class and make it read list items
 try:
     import ConfigParser as cp
 except ImportError:
-    import configParser as cp
+    import configparser as cp
 import re
 
 class MyListConf(cp.ConfigParser, object):
