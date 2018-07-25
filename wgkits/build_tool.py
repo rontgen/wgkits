@@ -223,3 +223,36 @@ def reverto_version(rev):
     cmd.append('.')
     print(cmd)
     call(cmd, shell=True)
+
+
+"""
+add svn revert function
+"""
+
+def remove_ignored_files():
+    params=['svn']
+    params.append('cleanup')
+    params.append('--remove-ignored')
+    call(params,shell=True)
+
+def remove_unversioned_files():
+    params=['svn']
+    params.append('cleanup')
+    params.append('--remove-unversioned')
+    call(params,shell=True)
+
+def revert_modification(path):
+    'modification'
+    params=['svn']
+    params.append('revert')
+    params.append('-R')
+    params.append(path)
+    call(params, shell=True)
+
+
+def reset_folder_state(path, cur_dir):
+    os.chdir(path)
+    remove_unversioned_files()
+    revert_modification(path)
+    remove_ignored_files()
+    os.chdir(cur_dir)
