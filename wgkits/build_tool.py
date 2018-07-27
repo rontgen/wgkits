@@ -256,3 +256,40 @@ def reset_folder_state(path, cur_dir):
     revert_modification(path)
     remove_ignored_files()
     os.chdir(cur_dir)
+
+def png_compress(pngquant_path, plist_root_path, min_quality, max_quality, speed, is_verbose = True):
+    pngquant_cmd = os.path.join(pngquant_path, 'pngquant.exe')
+    if not has_file(pngquant_cmd):
+        sys_quit('invalid pngquant path')
+    root_folder = os.path.basename(plist_root_path)
+    root_path = os.path.dirname(plist_root_path)
+    rep = r'(.*){0}(.*)' .format(root_folder)
+    print(rep)
+    p = re.compile(rep)
+    for root, dirs, files in os.walk(plist_root_path):
+        for file in files:
+            if file.endswith('.png'):
+                file_path = os.path.join(root, file)
+                m=p.match(file_path)
+                if m:
+                    des_path=m.group(1)+'tmp'+ m.group(2)
+                    cmd = []
+                    cmd.append(pngquant_cmd)
+                    cmd.append('--quality')
+                    cmd.append(str(min_quality) + '-' + str(max_quality))
+                    cmd.append('--speed')
+                    cmd.append(str(speed))
+                    cmd.append('--force')
+                    cmd.append(file_path)
+                    cmd.append('--output')
+                    cmd.append(des_path)
+                    if is_verbose:
+                        cmd.append('--verbose')
+                    des_folder=os.path.dirname(des_path)
+                    if not has_dir(des_folder):
+                        os.makedirs(des_folder)
+                    call(cmd)
+    tmp_path = os.path.join(root_path, 'tmp')
+    copy_dir(tmp_path, plist_root_path)
+    if has_dir(tmp_path):
+        shutil.rmtree(tmp_path)
