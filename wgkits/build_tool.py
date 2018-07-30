@@ -293,3 +293,56 @@ def png_compress(pngquant_path, plist_root_path, min_quality, max_quality, speed
     copy_dir(tmp_path, plist_root_path)
     if has_dir(tmp_path):
         shutil.rmtree(tmp_path)
+
+"""
+rename pngcrush_version.exe to pngcrush.exe
+more detail:http://manpages.ubuntu.com/manpages/xenial/man1/pngcrush.1.html
+-brute    Use brute force, try 114 different  filter/compression  methods  [11-124].  This
+                 option  is  very  time-consuming  and generally not worthwhile. You can restrict
+                 this option to certain  filter  types,  compression  levels,  or  strategies  by
+                 following it with -f filter,  -l level, or -z strategy.
+
+-f filter Specify filter (see section "Filter Types" ) to use with the method specified in
+                 the preceding -m or -brute option.  Valid filter types are [0-4] : use specified
+                 filter, [5]: use adaptive filtering.
+-l level  zlib  compression  level  to  use  on  the  filtered  IDAT chunk with the method
+                 specified by the preceding -m or -brute  option.  zlib  compression  levels  are
+                 integers  between 0 and 9.  0 = no compression, 1 = fastest compression, and 9 =
+                 best compression.
+"""
+def lossless_png_compress(pngcrush_path, plist_root_path, isbrute=False , filter=5, level=3):
+    pngcrush_cmd = os.path.join(pngcrush_path, 'pngcrush.exe')
+    if not has_file(pngquant_cmd):
+        sys_quit('invalid pngquant path')
+    root_folder = os.path.basename(plist_root_path)
+    root_path = os.path.dirname(plist_root_path)
+    rep = r'(.*){0}(.*)' .format(root_folder)
+    print(rep)
+    p = re.compile(rep)
+    for root, dirs, files in os.walk(plist_root_path):
+        for file in files:
+            if file.endswith('.png'):
+                file_path = os.path.join(root, file)
+                m=p.match(file_path)
+                if m:
+                    des_path=m.group(1)+'tmp'+ m.group(2)
+                    cmd = []
+                    cmd.append(pngcrush_cmd)
+                    cmd.append('-reduce')
+                    if isbrute == True:
+                        cmd.append('-brute')
+                    if isbrute == False:
+                        cmd.append('-f')
+                        cmd.append(str(filter))
+                        cmd.append('-l')
+                        cmd.append(str(level))
+                    cmd.append(file_path)
+                    cmd.append(des_path)
+                    des_folder=os.path.dirname(des_path)
+                    if not has_dir(des_folder):
+                        os.makedirs(des_folder)
+                    call(cmd)
+    tmp_path = os.path.join(root_path, 'tmp')
+    copy_dir(tmp_path, plist_root_path)
+    if has_dir(tmp_path):
+        shutil.rmtree(tmp_path)
