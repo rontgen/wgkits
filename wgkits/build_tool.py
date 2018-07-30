@@ -154,6 +154,8 @@ def copy_dir(sou_dir, dst_dir, del_dst=False, del_subdst=False):
                 os.makedirs(dst_file)
             copy_dir(cur_file, dst_file)
         else:
+            if has_file(dst_file):
+                os.remove(dst_file)
             shutil.copyfile(cur_file, dst_file)
 
 def write_xml(path, root):
