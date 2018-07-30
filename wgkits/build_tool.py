@@ -312,8 +312,8 @@ more detail:http://manpages.ubuntu.com/manpages/xenial/man1/pngcrush.1.html
 """
 def lossless_png_compress(pngcrush_path, plist_root_path, isbrute=False , filter=5, level=3):
     pngcrush_cmd = os.path.join(pngcrush_path, 'pngcrush.exe')
-    if not has_file(pngquant_cmd):
-        sys_quit('invalid pngquant path')
+    if not has_file(pngcrush_cmd):
+        sys_quit('invalid pngcrush path')
     root_folder = os.path.basename(plist_root_path)
     root_path = os.path.dirname(plist_root_path)
     rep = r'(.*){0}(.*)' .format(root_folder)
