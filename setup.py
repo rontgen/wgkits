@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wgkits",
-    version="0.1.0.2",
+    version="0.1.1",
     author="rontgen",
     author_email="rontgen@pku.edu.cn",
     description="Android build apk tools",
