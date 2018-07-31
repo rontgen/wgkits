@@ -348,3 +348,12 @@ def lossless_png_compress(pngcrush_path, plist_root_path, isbrute=False , filter
     copy_dir(tmp_path, plist_root_path)
     if has_dir(tmp_path):
         shutil.rmtree(tmp_path)
+
+"""
+param1: type list 
+param2: type list
+compare two list, return elements that not in the second list
+"""
+def diff(first, second):
+        second = set(second)
+        return [item for item in first if item not in second]
