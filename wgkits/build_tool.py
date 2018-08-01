@@ -158,8 +158,11 @@ def copy_dir(sou_dir, dst_dir, del_dst=False, del_subdst=False):
                 os.remove(dst_file)
             shutil.copyfile(cur_file, dst_file)
 
-def write_xml(path, root):
-    data=ET.tostring(root, encoding='utf8', method='xml')
+"""
+method: "xml", "html" or "text" default is "xml"
+"""
+def write_xml(path, root, fmt='xml'):
+    data=ET.tostring(root, encoding='utf8', method=fmt)
     with codecs.open(path, 'w') as f:
         f.write(data)
 
