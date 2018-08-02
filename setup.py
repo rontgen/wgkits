@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wgkits",
-    version="0.1.1.2",
+    version="0.1.1.3",
     author="rontgen",
     author_email="rontgen@pku.edu.cn",
     description="Android build apk tools",
@@ -14,12 +14,13 @@ setuptools.setup(
     url="https://github.com/rontgen/wgkits",
     packages=setuptools.find_packages(),
     classifiers=(
-        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2，3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
     install_requires=[
         'jinja2',
         'backports.shutil_which',
+        'opencc-python-reimplemented'
     ],
 )
