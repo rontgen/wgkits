@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wgkits",
-    version="0.1.1.3",
+    version="0.1.1.4",
     author="rontgen",
     author_email="rontgen@pku.edu.cn",
     description="Android build apk tools",
@@ -21,6 +21,9 @@ setuptools.setup(
     install_requires=[
         'jinja2',
         'backports.shutil_which',
-        'opencc-python-reimplemented'
+        'opencc-python-reimplemented',
+        'pandas',
+        'openpyxl',
+        'matplotlib'
     ],
 )
