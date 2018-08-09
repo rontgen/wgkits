@@ -22,7 +22,13 @@ ref=string.ascii_uppercase
 cur_dir = os.getcwd()
 
 def read_xlsx(file_path):
-    file_path = unicode(path2unix(file_path), 'utf8')
+    if isinstance(file_path, str):
+        text = file_path
+        #decoded = False
+    else:
+        text = file_path.decode(encoding)
+        #decoded = True
+        file_path = unicode(path2unix(file_path), 'utf8')
     wb = ox.load_workbook(file_path)
     return wb
 
@@ -59,7 +65,7 @@ def rc2cor(row, column):
     while True:
         ret = int(round(math.floor(column / math.pow(26, pow_num))))
         remainder = column % 26
-        if ret >= 0:
+        if ret > 0:
             print("remainder=%d" %remainder)
             print("ret=%d" %ret)
             rl.append(ret)
@@ -67,19 +73,22 @@ def rc2cor(row, column):
             column = column - math.pow(26, pow_num)
             pow_num = pow_num - 1
         else:
+            if remainder>0:
+                rl.append(ret)
             ret=""
             print("remainder=%s" %remainder)
-            if remainder >= 1: 
+            if remainder >= 1:
                 remainder = ref[int(round(remainder)) -1]
             else:
                 remainder=""
             break
-                
+
     print("rl=%s" %rl)
     index=-1
     if len(rl) < lenlist:
         tmp = [0] * (lenlist-len(rl))
         rl=rl+tmp
+        print("###rl={0}" .format(rl))
     for m in rl[::-1]:
         #if m > 0
         index=index-1
@@ -89,9 +98,12 @@ def rc2cor(row, column):
         if m == 0 and rl[index]>0:
             rl[index+1]=rl[index+1]+26
             rl[index]=rl[index]-1
+        elif m==0 and rl[index]==0:
+            rl[index] = -1
+            rl[index+1] = rl[index+1]+26
         print("reorder list=%s" %rl)
-    for m in rl[::-1]: 
-        if m >0:   
+    for m in rl[::-1]:
+        if m >0:
             result=ref[m-1]+result
     print("result=%s" %result)
     return result+remainder+ str(row)
@@ -100,7 +112,7 @@ def cor2rc(corstr):
     pass
 
 def main():
-    file_path = path2unix(os.path.join(cur_dir, "新建 Microsoft Office Excel 工作表.xlsx"))
+    file_path = path2unix(os.path.join(cur_dir, "../新建文本文档.xlsx"))
     wb = read_xlsx(file_path)
     sheet_list = wb.sheetnames
     print(sheet_list)
@@ -110,10 +122,10 @@ def main():
         for cell in row:
             print(cell.coordinate)
             print(cell.value)
-    
+
     print(sheet.max_row, sheet.max_column)
     print(wb.active)
-    print(rc2cor(3,456977))
+    print(rc2cor(3,677))
     #print(math.pow(26, 10))
 
 
