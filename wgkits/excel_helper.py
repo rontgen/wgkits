@@ -19,18 +19,14 @@ ref=string.ascii_uppercase
 cur_dir = os.getcwd()
 
 def read_xlsx(file_path):
-    if isinstance(file_path, str):
+    if sys.version_info <(3,0):
         file_path = unicode(path2unix(file_path), 'utf8')
-    else:
-        file_path = file_path.decode('utf8')
     wb = ox.load_workbook(file_path)
     return wb
 
 def write_xlsx(file_path, wb):
-    if isinstance(file_path, str):
+    if sys.version_info <(3,0):
         file_path = unicode(path2unix(file_path), 'utf8')
-    else:
-        file_path = file_path.decode('utf8')
     folder_name = os.path.dirname(file_path)
     if not has_dir(folder_name):
         os.makedirs(folder_name)
