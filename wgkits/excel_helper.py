@@ -12,7 +12,7 @@ import openpyxl as ox
 import os, sys, string
 from wgkits.build_tool import *
 import math
-from overload import overload
+from wgkits.overload import overload
 
 ref=string.ascii_uppercase
 
@@ -36,19 +36,19 @@ def write_xlsx(file_path, wb):
         os.makedirs(folder_name)
     wb.save(file_path)
 
-@overload(openpyxl.worksheet.worksheet.Worksheet, tuple)
+@overload(ox.worksheet.worksheet.Worksheet, tuple)
 def read_cell(ws, tp):
     return ws.cell(tp[0], tp[1]).value
 
-@overload(openpyxl.worksheet.worksheet.Worksheet, int, int)
+@overload(ox.worksheet.worksheet.Worksheet, int, int)
 def read_cell(ws, r, c):
     return ws.cell(row=r, column=c).value
 
-@overload(openpyxl.worksheet.worksheet.Worksheet,tuple, str)
+@overload(ox.worksheet.worksheet.Worksheet,tuple, str)
 def write_cell(ws, tp, data):
     ws.cell(tp[0], tp[1]).value = data
 
-@overload(openpyxl.worksheet.worksheet.Worksheet, int, int ,str)
+@overload(ox.worksheet.worksheet.Worksheet, int, int ,str)
 def write_cell(ws, r, c, data):
     ws.cell(row=r, column=c).value = data
 
