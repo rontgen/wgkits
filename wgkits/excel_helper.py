@@ -20,17 +20,20 @@ cur_dir = os.getcwd()
 
 def read_xlsx(file_path):
     if isinstance(file_path, str):
-        text = file_path
-        #decoded = False
+        pass
     else:
-        text = file_path.decode(encoding)
-        #decoded = True
+        file_path = file_path.decode(encoding)
         file_path = unicode(path2unix(file_path), 'utf8')
     wb = ox.load_workbook(file_path)
     return wb
 
 def write_xlsx(file_path, wb):
-    folder_name = os.path.dirname(path)
+    if isinstance(file_path, str):
+        pass
+    else:
+        file_path = file_path.decode(encoding)
+        file_path = unicode(path2unix(file_path), 'utf8')
+    folder_name = os.path.dirname(file_path)
     if not has_dir(folder_name):
         os.makedirs(folder_name)
     wb.save(file_path)
