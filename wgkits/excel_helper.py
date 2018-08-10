@@ -60,19 +60,40 @@ def rc2cor(row, column):
     print("pow_num=%s" %pow_num)
     lenlist = pow_num
     while True:
-        ret = int(round(math.floor(column / math.pow(26, pow_num))))
+        if pow_num < 0:
+            break
+        print("[start]:remainder=%d" %remainder)
+        print("[start]:ret=%d" %ret)
+        print("[start]:column=%d" %column)
+        print("[start]:pow_num=%d" %pow_num)
+        ret = int(math.floor(column / math.pow(26, pow_num)))
         remainder = column % 26
         if ret > 0:
             print("remainder=%d" %remainder)
             print("ret=%d" %ret)
-            rl.append(ret)
-            remainder = 0
-            column = column - math.pow(26, pow_num)
-            pow_num = pow_num - 1
-        else:
-            if remainder>0:
+            print("column=%d" %column)
+            print("pow_num=%d" %pow_num)
+            if remainder != 0:
                 rl.append(ret)
-            ret=""
+                column = column - math.pow(26, pow_num)
+                remainder = 0
+                pow_num = pow_num - 1
+            else:
+                print("special # rl={0}" .format(rl))
+                rl.append(ret)
+                print("@@@ ret={0}" .format(ret))
+                print("@@@ rl={0}" .format(len(rl)))
+                if ret > len(rl):
+                    polish_list = [0] * (ret-len(rl))
+                    remainder=""
+                    print("@@@ polish_list={0}" .format(polish_list))
+                    rl = rl + polish_list
+                    print("@@special={0}" .format(rl))
+                    break
+        else:
+            if remainder > 0:
+                rl.append(ret)
+            ret = ""
             print("remainder=%s" %remainder)
             if remainder >= 1:
                 remainder = ref[int(round(remainder)) -1]
@@ -80,14 +101,14 @@ def rc2cor(row, column):
                 remainder=""
             break
 
-    print("rl=%s" %rl)
+    print("caculate rl=%s" %rl)
+    print("lenlist=%s" %lenlist)
     index=-1
     if len(rl) < lenlist:
         tmp = [0] * (lenlist-len(rl))
         rl=rl+tmp
         print("###rl={0}" .format(rl))
     for m in rl[::-1]:
-        #if m > 0
         index=index-1
         print("index=%d" %index)
         if -index > len(rl):
@@ -102,7 +123,9 @@ def rc2cor(row, column):
     for m in rl[::-1]:
         if m >0:
             result=ref[m-1]+result
-    print("result=%s" %result)
+    print("result=%s" %type(result))
+    print("remainder=%s" %type(remainder))
+    print("row=%s" %type(row))
     return result+remainder+ str(row)
 
 def letter2num(lstr):
