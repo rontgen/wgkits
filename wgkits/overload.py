@@ -18,9 +18,9 @@ class OverloadObj(object):
 def overload(*types):
     def register(function):
         name = function.__name__
-        ol = register.get(name)
+        ol = registry.get(name)
         if ol is None:
-            ol = register[name] = OverloadObj(name)
+            ol = registry[name] = OverloadObj(name)
         ol.register(types, function)
         return ol
     return register
