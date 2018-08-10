@@ -8,9 +8,6 @@ Function Description:
     2. read data from excel, analyze and draw graphic chart
 """
 
-# -*-: coding: utf-8 -*
-
-# -*-: coding: utf-8 -*
 import openpyxl as ox
 
 import os, sys, string
@@ -108,8 +105,23 @@ def rc2cor(row, column):
     print("result=%s" %result)
     return result+remainder+ str(row)
 
+def letter2num(lstr):
+    rt = 0
+    digit = 1
+    for m in lstr[::-1]:
+        rt = rt +(ref.index(m)+1)*math.pow(26, digit-1)
+        digit = digit + 1
+    return int(round(rt))
+
 def cor2rc(corstr):
-    pass
+    rt = (-1,-1)
+    p = re.compile(r'(?P<clm>\D*)(?P<row>\d*)')
+    m = p.match(corstr)
+    if m:
+        print(m.groupdict()['clm'])
+        print(m.groupdict()['row'])
+        rt = (int(m.groupdict()['row']), letter2num(m.groupdict()['clm']))
+    return rt
 
 def main():
     file_path = path2unix(os.path.join(cur_dir, "../新建文本文档.xlsx"))
