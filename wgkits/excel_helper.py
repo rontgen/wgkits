@@ -35,6 +35,18 @@ def write_xlsx(file_path, wb):
         os.makedirs(folder_name)
     wb.save(file_path)
 
+def read_cell(ws, cor):
+    return ws.cell(coordinate=cor).value
+
+def read_cell(ws, r, c):
+    return ws.cell(row=r, column=c).value
+
+def write_cell(ws, cor, data):
+    ws.cell(coordinate=cor).value = data
+
+def write_cell(ws, r, c, data):
+    ws.cell(row=r, column=c).value = data
+
 def modify_xlsx():
     pass
 
