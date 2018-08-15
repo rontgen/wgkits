@@ -81,7 +81,7 @@ def insert_row(ws, row_index, data_list):
                 col_index = 1
                 for c in ws.iter_cols():
                     data = ""
-                    if sys.version_info < (3, 0)
+                    if sys.version_info < (3, 0):
                         data = str(read_cell(ws, index, col_index)).encode('utf8')
                     else:
                         data = str(read_cell(ws, index, col_index))
@@ -95,6 +95,40 @@ def insert_row(ws, row_index, data_list):
     for c in ws.iter_cols():
         write_cell(ws, row_index, col_index, data_list[col_index-1])
         col_index = col_index + 1
+
+def insert_column(ws, col_index, data_list):
+    row = ws.max_row
+    column = ws.max_column
+    if len(data_list) > row:
+        sys_quit("params not match")
+    elif len(data_list) < row:
+        data_list = data_list + [""] * (row-len(data_list))
+    if col_index <= column:
+        column_list = []
+        if sys.version_info < (3, 0):
+            column_list = map(lambda x : x+1, range(column))
+        else:
+            column_list = list(map(lambda x : x+1, range(column)))
+        for index in column_list[::-1]:
+            if index < col_index:
+                break
+            else:
+                row_index = 1
+                for c in ws.iter_rows():
+                    data = ""
+                    if sys.version_info < (3, 0) and read_cell(ws, row_index, index) != None :
+                        data = read_cell(ws, row_index, index).strip().encode('utf-8')
+                    else:
+                        data = str(read_cell(ws, row_index, index))
+                    if read_cell(ws, row_index, index) != None:
+                        write_cell(ws, row_index, index+1, data)
+                    else:
+                        write_cell(ws, row_index, index, "")
+                    row_index = row_index + 1
+    row_index = 1
+    for c in ws.iter_rows():
+        write_cell(ws, row_index, col_index, data_list[row_index - 1])
+        row_index = row_index + 1
 
 def modify_xlsx():
     pass
