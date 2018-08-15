@@ -66,6 +66,36 @@ def write_cell(ws, cor, data):
     else:
         raise TypeError("params not match")
 
+
+def insert_row(ws, row_index, data_list):
+    row = ws.max_row
+    column = ws.max_column
+    cur_index = row
+    if len(data_list) != column:
+        sys_quit("params not match")
+    if row_index <= row:
+        for index in range(row)[::-1]:
+            if index < row_index:
+                break
+            else:
+                col_index = 1
+                for c in ws.iter_cols():
+                    data = ""
+                    if sys.version_info < (3, 0)
+                        data = str(read_cell(ws, index, col_index)).encode('utf8')
+                    else:
+                        data = str(read_cell(ws, index, col_index))
+                    if read_cell(ws, index, col_index) != None:
+                        write_cell(ws,index + 1, col_index, )
+                    else:
+                        write_cell(ws,index + 1, col_index, "")
+                    col_index = col_index + 1
+
+    col_index = 1
+    for c in ws.iter_cols():
+        write_cell(ws, row_index, col_index, data_list[col_index-1])
+        col_index = col_index + 1
+
 def modify_xlsx():
     pass
 
