@@ -128,7 +128,7 @@ def insert_column(ws, col_index, data_list):
                     if read_cell(ws, row_index, index) != None:
                         write_cell(ws, row_index, index+1, data)
                     else:
-                        write_cell(ws, row_index, index, "")
+                        write_cell(ws, row_index, index+1, "")
                     row_index = row_index + 1
     row_index = 1
     for c in ws.iter_rows():
