@@ -74,7 +74,12 @@ def insert_row(ws, row_index, data_list):
     if len(data_list) != column:
         sys_quit("params not match")
     if row_index <= row:
-        for index in range(row)[::-1]:
+        row_list = []
+        if sys.version_info < (3, 0):
+            row_list = map(lambda x : x+1, range(row))
+        else:
+            row_list = list(map(lambda x : x+1, range(row)))
+        for index in row_list[::-1]:
             if index < row_index:
                 break
             else:
