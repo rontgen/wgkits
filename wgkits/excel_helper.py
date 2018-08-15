@@ -86,7 +86,7 @@ def insert_row(ws, row_index, data_list):
                     else:
                         data = str(read_cell(ws, index, col_index))
                     if read_cell(ws, index, col_index) != None:
-                        write_cell(ws,index + 1, col_index, )
+                        write_cell(ws,index + 1, col_index, data)
                     else:
                         write_cell(ws,index + 1, col_index, "")
                     col_index = col_index + 1
