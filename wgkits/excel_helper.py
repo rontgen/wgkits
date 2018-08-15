@@ -40,6 +40,15 @@ def read_cell(ws, tp):
 def read_cell(ws, r, c):
     return ws.cell(row=r, column=c).value
 
+@overload(ox.worksheet.worksheet.Worksheet, str)
+def read_cell(ws, cor):
+    p=re.compile(r'^([A-Za-z]+)(\d+)$')
+    m = p.match(cor)
+    if m:
+         return read_cell(ws, cor2rc(cor))
+    else:
+        raise TypeError("params not match")
+
 @overload(ox.worksheet.worksheet.Worksheet,tuple, str)
 def write_cell(ws, tp, data):
     ws.cell(tp[0], tp[1]).value = data
@@ -47,6 +56,15 @@ def write_cell(ws, tp, data):
 @overload(ox.worksheet.worksheet.Worksheet, int, int ,str)
 def write_cell(ws, r, c, data):
     ws.cell(row=r, column=c).value = data
+
+@overload(ox.worksheet.worksheet.Worksheet, str, str)
+def write_cell(ws, cor, data):
+    p=re.compile(r'^([A-Za-z]+)(\d+)$')
+    m = p.match(cor)
+    if m:
+         write_cell(ws, cor2rc(cor), data)
+    else:
+        raise TypeError("params not match")
 
 def modify_xlsx():
     pass
