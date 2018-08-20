@@ -262,7 +262,7 @@ def reset_folder_state(path, cur_dir):
     remove_ignored_files()
     os.chdir(cur_dir)
 
-def png_compress(pngquant_path, plist_root_path, min_quality, max_quality, speed, is_verbose = True):
+def png_compress(pngquant_path, plist_root_path, min_quality, max_quality, speed, skip_list=[], is_verbose = True):
     pngquant_cmd = os.path.join(pngquant_path, 'pngquant.exe')
     if not has_file(pngquant_cmd):
         sys_quit('invalid pngquant path')
@@ -273,7 +273,7 @@ def png_compress(pngquant_path, plist_root_path, min_quality, max_quality, speed
     p = re.compile(rep)
     for root, dirs, files in os.walk(plist_root_path):
         for file in files:
-            if file.endswith('.png'):
+            if file.endswith('.png') and file not in skip_list:
                 file_path = os.path.join(root, file)
                 m=p.match(file_path)
                 if m:
@@ -315,7 +315,7 @@ more detail:http://manpages.ubuntu.com/manpages/xenial/man1/pngcrush.1.html
                  integers  between 0 and 9.  0 = no compression, 1 = fastest compression, and 9 =
                  best compression.
 """
-def lossless_png_compress(pngcrush_path, plist_root_path, isbrute=False , filter=5, level=3):
+def lossless_png_compress(pngcrush_path, plist_root_path, skip_list=[], isbrute=False , filter=5, level=3):
     pngcrush_cmd = os.path.join(pngcrush_path, 'pngcrush.exe')
     if not has_file(pngcrush_cmd):
         sys_quit('invalid pngcrush path')
@@ -326,7 +326,7 @@ def lossless_png_compress(pngcrush_path, plist_root_path, isbrute=False , filter
     p = re.compile(rep)
     for root, dirs, files in os.walk(plist_root_path):
         for file in files:
-            if file.endswith('.png'):
+            if file.endswith('.png') and file not in skip_list:
                 file_path = os.path.join(root, file)
                 m=p.match(file_path)
                 if m:
