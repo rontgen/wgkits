@@ -11,7 +11,10 @@ import codecs
 import shutil
 from subprocess import call
 
-
+try:
+    from cn_conv import CNConvert
+except ImportError:
+    from .cn_conv import CNConvert
 try:
     from list_con import MyListConf
 except ImportError:
@@ -353,10 +356,28 @@ def lossless_png_compress(pngcrush_path, plist_root_path, skip_list=[], isbrute=
         shutil.rmtree(tmp_path)
 
 """
-param1: type list 
+param1: type list
 param2: type list
 compare two list, return elements that not in the second list
 """
 def diff(first, second):
         second = set(second)
         return [item for item in first if item not in second]
+
+"""
+translate all files in path from simple chinese to traditional chinese
+"""
+def s2twp(path, ignore_list):
+    trans = CNConvert()
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            if f not in ignore_list:
+                full_path = os.path.join(root, f)
+                print(full_path)
+                fdata = read_file(full_path, True)
+                data=""
+                for l in fdata:
+                    if l != "":
+                        data=data+trans.s2twp(l)
+
+                write_file(full_path, data)
