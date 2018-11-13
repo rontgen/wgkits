@@ -1,3 +1,4 @@
 jinja2
 backports.shutil_which
 opencc-python-reimplemented
+beautifulsoup4

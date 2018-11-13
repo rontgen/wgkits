@@ -24,6 +24,7 @@ setuptools.setup(
         'opencc-python-reimplemented',
         'pandas',
         'openpyxl',
+        'beautifulsoup4',
         'matplotlib'
     ],
 )
